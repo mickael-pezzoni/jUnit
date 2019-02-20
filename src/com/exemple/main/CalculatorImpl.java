@@ -1,6 +1,4 @@
-package com.exemple.test;
-
-import com.exemple.main.Calculator;
+package com.exemple.main;
 
 public class CalculatorImpl implements Calculator {
 

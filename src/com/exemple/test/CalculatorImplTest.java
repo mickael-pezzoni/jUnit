@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import com.exemple.main.Calculator;
+import com.exemple.main.CalculatorImpl;
 
 class CalculatorImplTest {
 
@@ -21,15 +22,13 @@ class CalculatorImplTest {
 		Calculator calc = new CalculatorImpl();
 		int a,b,res;
 		a = 5;
-		b = 0;
+		b = 1;
 		res = a / b;
 		assertAll("division par 0",
 				() -> assertEquals(res, calc.divide(a, b))
 				);
 		assertThrows(ArithmeticException.class, () -> {
-			if(b == 0) {
-				throw new ArithmeticException();
-			}
+			calc.divide(5, b);
 		});
 	}
 	@Test
