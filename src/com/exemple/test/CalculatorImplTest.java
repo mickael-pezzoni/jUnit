@@ -5,7 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.opentest4j.MultipleFailuresError;
 
 import com.exemple.main.Calculator;
 import com.exemple.main.CalculatorImpl;
@@ -16,7 +21,11 @@ class CalculatorImplTest {
 	public void testMultiply() {
 		fail("Not yet implemented");
 	}
-
+	
+	public int getResDivide(int a, int b) {
+		return a/b;
+	}
+	
 	@Test
 	public final void testDivideByZero() {
 		Calculator calc = new CalculatorImpl();
@@ -28,43 +37,19 @@ class CalculatorImplTest {
 				() -> assertEquals(res, calc.divide(a, b))
 				);
 		assertThrows(ArithmeticException.class, () -> {
-			calc.divide(5, b);
+			calc.divide(a, b);
 		});
 	}
-	@Test
-	public void testDivide() {
+
+	@DisplayName("Erreur division")
+	@ParameterizedTest(name = "{index} => a={0}, b={1}")
+	@CsvSource({
+		"1, 1",
+		"2, 3"
+	})
+	public void testDivide(int a, int b) {
 		Calculator calc = new CalculatorImpl();
-		int a, b, res;
-		a = 5; 
-		b  = 5; 
-		res = a / b;
-		if (calc.divide(a, b) != res) {
-			fail("a et b positif");
-		}
-		a = 0; 
-		b  = 5; 
-		res = a / b;
-		if (calc.divide(a, b) != res) {
-			fail("a nul");
-		}
-		a = -5; 
-		b  = 5; 
-		res = a / b;
-		if (calc.divide(a, b) != res) {
-			fail("a negatif");
-		}
-		a = 5; 
-		b  = -5; 
-		res = a / b;
-		if (calc.divide(a, b) != res) {
-			fail("b negatif");
-		}
-		a = -5; 
-		b  = -5; 
-		res = a / b;
-		if (calc.divide(a, b) != res) {
-			fail("a et b negatif");
-		}
+		assertEquals(getResDivide(a,b), calc.divide(a, b));
 	}
 
 	@Test
